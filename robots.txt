@@ -1,0 +1,18 @@
+# RUŌOD Lab — https://ruood.com/lab
+#
+# IMPORTANT: robots.txt is only honoured at the ROOT of a domain. A crawler
+# reads https://ruood.com/robots.txt and never https://ruood.com/lab/robots.txt.
+# This file is therefore a SOURCE to merge into the root domain's own
+# robots.txt, which the main RUŌOD site owns — copy the two lines that matter
+# (the Allow, and the Sitemap) into it. See README.md, "Deployment".
+
+User-agent: *
+Allow: /
+
+# Nothing under /lab is disallowed. The four public pages are:
+#   /lab
+#   /lab/about
+#   /lab/privacy
+#   /lab/contact
+
+Sitemap: https://ruood.com/lab/sitemap.xml

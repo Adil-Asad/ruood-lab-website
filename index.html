@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RUŌOD Lab — Perfume Formulation &amp; Laboratory Software</title>
+<meta name="description" content="An offline-first Android app for perfumers: a raw-material library, a formula editor with a dilution and scaling engine, reports, and backup you control.">
+<link rel="canonical" href="https://ruood.com/lab">
+<meta name="theme-color" content="#0B0B0C">
+<meta name="color-scheme" content="dark">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RUŌOD Lab">
+<meta property="og:title" content="RUŌOD Lab — Perfume Formulation &amp; Laboratory Software">
+<meta property="og:description" content="A raw-material library, a formula editor with a dilution and scaling calculation engine, production targets and reports — offline-first, on your own device.">
+<meta property="og:url" content="https://ruood.com/lab">
+<meta property="og:image" content="https://ruood.com/lab/assets/images/ruood-lab-social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The gilded RUŌOD mark on black.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RUŌOD Lab — Perfume Formulation &amp; Laboratory Software">
+<meta name="twitter:description" content="A raw-material library, a formula editor with a dilution and scaling calculation engine, production targets and reports — offline-first, on your own device.">
+<meta name="twitter:image" content="https://ruood.com/lab/assets/images/ruood-lab-social-card.png">
+
+<link rel="icon" href="/lab/assets/images/ruood-lab-mark-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/lab/assets/images/ruood-lab-mark-96.png" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="/lab/assets/images/ruood-lab-mark-180.png">
+<link rel="stylesheet" href="/lab/css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://ruood.com/lab#website",
+      "url": "https://ruood.com/lab",
+      "name": "RUŌOD Lab",
+      "description": "Official product site for RUŌOD Lab, a perfume formulation and laboratory-management application.",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://ruood.com/lab#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://ruood.com/lab#organization",
+      "name": "RUŌOD",
+      "url": "https://ruood.com",
+      "logo": "https://ruood.com/lab/assets/images/ruood-lab-mark-256.png",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "email": "info@ruood.com",
+          "contactType": "customer support",
+          "availableLanguage": "English"
+        },
+        {
+          "@type": "ContactPoint",
+          "email": "developers@ruood.com",
+          "contactType": "technical support",
+          "availableLanguage": "English"
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://ruood.com/lab#app",
+      "name": "RUŌOD Lab",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Perfume formulation and laboratory management",
+      "operatingSystem": "Android",
+      "softwareVersion": "1.0.0",
+      "url": "https://ruood.com/lab",
+      "image": "https://ruood.com/lab/assets/images/ruood-lab-social-card.png",
+      "description": "An offline-first perfume formulation application: a raw-material library, a formula editor with a dilution and scaling calculation engine, production targets, reports, import and export, and local or Google Drive backup.",
+      "featureList": [
+        "Raw material library with collections and configurable fields",
+        "Formula editor with a layered calculation engine",
+        "Dilution handling with pure active and internal solvent tracking",
+        "Formula, absolute and relative percentages",
+        "Formula scaling and production targets",
+        "IFRA limit checking against relative percentage",
+        "Formula Hub calculated fields, aggregates and derived calculations",
+        "Rich-text notes and App Notes",
+        "Eight read-only library reports",
+        "Export to PDF, CSV, Excel and JSON",
+        "Import from CSV, Excel and JSON",
+        "App-wide undo and redo",
+        "Local backup and optional Google Drive backup"
+      ],
+      "publisher": { "@id": "https://ruood.com/lab#organization" }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is RUŌOD Lab?",
+      "acceptedAnswer": { "@type": "Answer", "text": "RUŌOD Lab is a perfume formulation and laboratory-management application for Android. It holds your raw-material library, your formulas and your notes on the device, and it calculates dilution, composition, scaling and production targets from one engine." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does RUŌOD Lab work offline?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. RUŌOD Lab is offline-first. Your materials, formulas, notes and settings are stored on your own device, and every screen works with no network connection. A connection is only needed if you choose to back up to Google Drive." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does dilution work in RUŌOD Lab?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Each formula row carries a raw weight and a dilution percentage. From those the engine derives the pure active weight and the internal solvent the row carries, and totals them across the formula. Changing a row's dilution is done through one of three methods, which differ in what they hold constant: the row's weight, the row's pure active, or both the pure active and the formula total." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between formula percentage, absolute percentage and relative percentage?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Formula % is a row's weight over the total formula weight, which is its physical share. Absolute % is a row's pure active over the total formula weight, which is its concentration in the finished mass. Relative % is a row's pure active over the total pure active, which is its olfactory contribution — and it is what IFRA limits are checked against." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I back up my RUŌOD Lab data?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Settings has one Backup section with two destinations: your device's own storage, and your Google Drive. Both write the same complete backup package. Google Drive backup is optional and only starts once you connect an account." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is RUŌOD Lab free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "RUŌOD Lab includes a subscription, RUŌOD Lab Premium, sold through Google Play Billing. No feature of the application is currently placed behind it — every screen behaves the same whether or not you subscribe." }
+    }
+  ]
+}
+</script>
+</head>
+
+<body>
+<script>document.documentElement.classList.remove('no-js');</script>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="/lab">
+      <img class="brand__mark" src="/lab/assets/images/ruood-lab-mark-96.png" width="34" height="34" alt="" decoding="async">
+      <span class="brand__name">RU<em>Ō</em>OD Lab</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <span class="nav-toggle__bars"><span></span></span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="/lab" aria-current="page">Home</a></li>
+        <li><a href="/lab#features">Features</a></li>
+        <li><a href="/lab#calculations">Calculations</a></li>
+        <li><a href="/lab/about">About</a></li>
+        <li><a href="/lab/privacy">Privacy</a></li>
+        <li><a href="/lab/contact">Contact</a></li>
+        <li><a class="btn btn--primary" href="/lab/contact">Get in touch</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <div>
+        <p class="eyebrow">RUŌOD Lab</p>
+        <h1>Perfume formulation software for people who <span class="accent">work in grams</span>.</h1>
+        <p class="hero__lede">
+          RUŌOD Lab holds your raw-material library, your formulas and your bench notes
+          on your own device — and does the arithmetic that sits between them.
+          Dilution, composition, scaling and production targets all come from one
+          calculation engine, so the numbers on every screen agree.
+        </p>
+
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#workflow">See how it works</a>
+          <a class="btn btn--ghost" href="#features">Feature overview</a>
+        </div>
+
+        <p class="hero__note">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/>
+          </svg>
+          <span>An Android application. It is not yet listed on Google Play — write to us if you
+          would like to hear when it is.</span>
+        </p>
+
+        <div class="hero__marks">
+          <span class="pill pill--gold">Offline-first</span>
+          <span class="pill">No account required</span>
+          <span class="pill">Your data stays on your device</span>
+        </div>
+      </div>
+
+      <!-- A diagram of one formula row, not a screenshot. -->
+      <figure class="figure">
+        <p class="figure__title">One row, as the engine reads it</p>
+        <div class="breakdown">
+          <div class="breakdown__row">
+            <span class="breakdown__label">
+              <strong>Iso E Super</strong>
+              entered at 10% dilution
+            </span>
+            <span class="breakdown__value">12.0000 g</span>
+          </div>
+
+          <div class="breakdown__split" role="img" aria-label="Of the twelve gram row, 1.2 grams is pure active and 10.8 grams is internal solvent.">
+            <span class="breakdown__part breakdown__part--active"></span>
+            <span class="breakdown__part breakdown__part--solvent"></span>
+          </div>
+          <p class="breakdown__legend" aria-hidden="true">
+            <span class="is-active">Pure active</span>
+            <span>Internal solvent</span>
+          </p>
+
+          <div class="breakdown__row">
+            <span class="breakdown__label">Pure active <span class="visually-hidden">weight</span></span>
+            <span class="breakdown__value breakdown__value--accent">1.2000 g</span>
+          </div>
+          <div class="breakdown__row">
+            <span class="breakdown__label">Internal solvent carried by the row</span>
+            <span class="breakdown__value">10.8000 g</span>
+          </div>
+          <p class="breakdown__note">
+            Weight × dilution gives the pure active; the remainder of the row is
+            solvent the material brought with it.
+          </p>
+        </div>
+        <figcaption>
+          An illustration of the calculation, not a screenshot of the application.
+          Figures rounded to four decimal places, as the engine rounds them.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== INTRODUCTION ===================== -->
+  <section class="section section--tight section--ruled" id="product">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What it is</p>
+        <h2 class="section-title">A formulation bench, not a spreadsheet</h2>
+        <p class="section-lede">
+          Most perfumers end up with a materials list in one file, formulas in another,
+          and the percentages recalculated by hand every time something changes.
+          RUŌOD Lab keeps the three connected: a material is a record, a formula is
+          built from those records, and every figure the app shows is derived from
+          them when you look at it.
+        </p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M4 5h16M4 12h16M4 19h10"/>
+            </svg>
+          </span>
+          <h3 class="card__title">Everything is derived</h3>
+          <p class="card__body">
+            How many formulas use a material, how many copies a formula has, what a
+            collection contains — none of it is stored as a number that can go stale.
+            It is worked out from your records each time, so an edit is reflected
+            immediately and a restored backup tells the truth about what it brought back.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/>
+            </svg>
+          </span>
+          <h3 class="card__title">One calculation engine</h3>
+          <p class="card__body">
+            The formula editor, the scaling screen, the status bar, the reports and
+            the exported PDF all read the same engine. No screen recomputes a
+            percentage of its own, which is why a printed total can never disagree
+            with the one on the bench.
+          </p>
+        </article>
+
+        <article class="card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4Z"/>
+            </svg>
+          </span>
+          <h3 class="card__title">Yours, on your device</h3>
+          <p class="card__body">
+            The application stores your library locally and works with no connection
+            at all. There is no RUŌOD account and no server holding your formulas.
+            Backup to Google Drive exists, and it is something you switch on.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WORKFLOW ===================== -->
+  <section class="section section--ruled" id="workflow">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">The workflow</p>
+        <h2 class="section-title">From a delivery of materials to a batch you can weigh out</h2>
+        <p class="section-lede">
+          The application is arranged around the order the work actually happens in.
+        </p>
+      </div>
+
+      <div class="chain">
+        <article class="chain__item">
+          <h3>Organise your materials</h3>
+          <p>Record what you have, file it into collections, and keep the supplier,
+             cost, quantity and IFRA limit with it.</p>
+        </article>
+        <article class="chain__item">
+          <h3>Build a formula</h3>
+          <p>Add materials as entries, give each a weight and a dilution, and watch
+             the composition resolve as you type.</p>
+        </article>
+        <article class="chain__item">
+          <h3>Calculate and scale</h3>
+          <p>Read the three percentages, check the IFRA position, and scale the
+             whole formula to a weight, a factor or a concentration.</p>
+        </article>
+        <article class="chain__item">
+          <h3>Document and protect</h3>
+          <p>Write it up in Notes, export it as a PDF or a spreadsheet, and back
+             the whole library up.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MATERIALS ===================== -->
+  <section class="section section--ruled" id="materials">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Materials</p>
+        <h2 class="section-title">A raw-material library that holds what you actually record</h2>
+        <p class="section-lede">
+          A material in RUŌOD Lab is a full record, not a name and a price. Materials
+          are filed into collections, and the library is searchable, filterable and
+          sortable on the fields you keep.
+        </p>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="card">
+          <h3 class="card__title">What a material carries</h3>
+          <p class="card__body">
+            Name, primary and secondary fragrance family, position in the fragrance
+            pyramid, a picture, CAS number, botanical name, supplier, date acquired,
+            quantity, cost, IFRA limit, dilutions, a solvent flag, your own code and
+            a description. Not every field has to be filled, and fields left empty
+            can be kept out of the way.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Fields you decide on</h3>
+          <p class="card__body">
+            Material Layout decides which sections appear and in what order; Material
+            Fields decides what a field is and how it behaves. You can add a field
+            that every material carries, or one that belongs to a single material —
+            and either way it travels with the record through a backup.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Finding things</h3>
+          <p class="card__body">
+            Search each list directly, or search the whole library from one field in
+            Tools. Filter materials by fragrance pyramid position or primary family,
+            and sort by name, date acquired, IFRA limit or quantity. A value that was
+            never recorded sorts last rather than pretending to be zero.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3 class="card__title">Used in formulas</h3>
+          <p class="card__body">
+            Each material reports the formulas that use it, counted from the live
+            formula list rather than a stored figure. Distinct formulas, never
+            entries — a formula using a material on three rows counts once, and
+            renaming a material never changes the answer.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FORMULAS ===================== -->
+  <section class="section section--ruled" id="formulas">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Formulas</p>
+        <h2 class="section-title">A formula editor that recalculates as you weigh</h2>
+        <p class="section-lede">
+          A formula is a set of entries, each pointing at a material in your library
+          and carrying a weight and a dilution. Everything else about it is worked out.
+        </p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card">
+          <h3 class="card__title">Composition, live</h3>
+          <p class="card__body">
+            Total weight, total pure active, total internal solvent and total cost
+            resolve as you edit a row. The status bar above the entries shows the
+            measures you chose to keep in front of you, from eleven the engine
+            derives.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Organisation that survives</h3>
+          <p class="card__body">
+            Formula collections, a status, tags, a favourite mark and a lock. A
+            locked formula cannot be deleted — a bulk delete containing one is
+            refused whole rather than partly obeyed, and it names which ones are
+            locked.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Versions and copies</h3>
+          <p class="card__body">
+            Duplicating a formula names the copy and marks it. The version mark never
+            renumbers — delete v2 of four and v4 stays v4 — while the duplicate count
+            is derived, so it falls when a copy goes.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">IFRA limits in view</h3>
+          <p class="card__body">
+            Where you have recorded an IFRA limit for a material, the engine checks
+            it against that entry's relative percentage and flags the row. A material
+            with no limit recorded is never quietly treated as compliant.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Undo across the app</h3>
+          <p class="card__body">
+            Edits are undoable and redoable app-wide, not just in one screen, and the
+            depth of the history is yours to set. The history is session data — it is
+            deliberately not carried into a backup.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Print it properly</h3>
+          <p class="card__body">
+            A formula exports as a laid-out PDF: the ingredient table with its
+            dilutions, the totals beneath it, and the same status-bar measures you
+            selected — typeset rather than dumped.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CALCULATIONS ===================== -->
+  <section class="section section--ruled" id="calculations">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Dilution &amp; calculation</p>
+        <h2 class="section-title">Three percentages, three different questions</h2>
+        <p class="section-lede">
+          They are routinely treated as one number, and they are not interchangeable.
+          RUŌOD Lab keeps them apart because they answer different things — and
+          because only one of them is the right basis for an IFRA check.
+        </p>
+      </div>
+
+      <div class="stack-lg">
+        <div class="figure">
+          <div class="table-scroll">
+            <table class="data-table">
+              <caption>How each percentage is derived for one entry.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Percentage</th>
+                  <th scope="col">Derived from</th>
+                  <th scope="col">The question it answers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Formula %</th>
+                  <td><code>entry weight ÷ total weight</code></td>
+                  <td>What physical share of the mass is this row? This is what you read when you are weighing.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Absolute %</th>
+                  <td><code>pure active ÷ total weight</code></td>
+                  <td>How concentrated is this material in the finished mass, once its own solvent is discounted?</td>
+                </tr>
+                <tr>
+                  <th scope="row">Relative %</th>
+                  <td><code>pure active ÷ total pure active</code></td>
+                  <td>What is this material's olfactory contribution? Solvent is ignored entirely, and this is what IFRA limits are checked against.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid grid--2">
+          <article class="card">
+            <h3 class="card__title">Pure active and internal solvent</h3>
+            <p class="card__body">
+              A material entered at a dilution brings solvent into the formula with it.
+              The engine separates the two for every row — <strong>pure active</strong>
+              is the weight times the dilution, and <strong>internal solvent</strong> is
+              what is left of the row. Totalled across the formula, they are what makes
+              a concentration figure mean anything.
+            </p>
+          </article>
+          <article class="card">
+            <h3 class="card__title">Internal solvent is not free solvent</h3>
+            <p class="card__body">
+              Solvent carried inside a diluted material and solvent added to the formula
+              as its own entry are different things, and the application keeps them
+              distinct. An entry you mark as a solvent carries no active weight by
+              definition, which is also what lets scaling draw it down when a
+              concentration has to change.
+            </p>
+          </article>
+        </div>
+
+        <div>
+          <h3 class="section-title subsection-title">Changing a dilution: three methods, three things held constant</h3>
+          <p class="section-lede mb-md">
+            Switching a row to a different dilution is not one operation. Which of the
+            three you want depends on what must not move.
+          </p>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Held constant</th>
+                  <th scope="col">What moves</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Preserve weight</th>
+                  <td>The row's weight</td>
+                  <td>Pure active shrinks, internal solvent grows. The formula total is unchanged and no other entry is touched.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Preserve percentage</th>
+                  <td>The row's pure active</td>
+                  <td>Only this row's weight changes, so the formula total moves. The material keeps its relative contribution.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Exchange solvent</th>
+                  <td>Pure active <em>and</em> the formula total</td>
+                  <td>The row grows and the entries you flagged as solvents are drawn down by the difference.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="callout callout--accent">
+          <strong>Direct editing and scaling are different operations.</strong>
+          Editing changes a formula's composition — you are deciding that a row
+          should now be a different weight. Scaling transforms the whole formula
+          while holding its proportions, so it answers a different question: how do
+          I make more of the same thing, or the same thing at a different strength?
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCALING ===================== -->
+  <section class="section section--ruled" id="scaling">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Scaling &amp; production targets</p>
+        <h2 class="section-title">Take a trial to a batch</h2>
+        <p class="section-lede">
+          The Dilutions &amp; Scaling screen works on the whole formula. Ingredient
+          proportions, dilution percentages and dilution methods are preserved through
+          a scale; what changes is the size or the strength.
+        </p>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="card">
+          <h3 class="card__title">Scale to a size</h3>
+          <p class="card__body">
+            Scale the formula until its total raw weight reaches a target, or apply a
+            factor directly. You can also scale from one ingredient — set the weight
+            or the percentage a single material should have, and the rest of the
+            formula follows it.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Scale to a concentration</h3>
+          <p class="card__body">
+            Set the absolute percentage the formula should reach, and free solvent is
+            adjusted to meet it while existing dilutions and internal solvent stay
+            intact. A target stronger than the formula could reach with no free
+            solvent at all is refused rather than approximated.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Production targets</h3>
+          <p class="card__body">
+            Give the finished batch size and the concentration you want it at. The
+            engine returns the concentrate required, the alcohol to make it up with,
+            and the factor between that and the formula as it currently stands.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Calculated before applied</h3>
+          <p class="card__body">
+            A scaling operation is calculated and shown to you first, and applied only
+            when you accept it. If it does turn out wrong, the app-wide undo is behind
+            you.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FORMULA HUB ===================== -->
+  <section class="section section--ruled" id="formula-hub">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Formula Hub</p>
+        <h2 class="section-title">Arithmetic over your own material fields</h2>
+        <p class="section-lede">
+          Separate from the formula engine above, and for a different job: defining
+          your own calculations over the fields your materials carry. Write them once
+          in the Formula Builder and they appear as values on the material.
+        </p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card">
+          <h3 class="card__title">Material</h3>
+          <p class="card__body">
+            Arithmetic over one material's own fields — <code>[Cost] × 3</code>.
+            Saved results become calculated fields in the material field catalogue.
+            An empty source makes the result unavailable rather than zero; nothing is
+            written to a material to make a calculation succeed.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Aggregates</h3>
+          <p class="card__body">
+            <code>SUM</code>, <code>AVERAGE</code>, <code>MIN</code>,
+            <code>MAX</code> and <code>COUNT</code> across every material in the
+            library. Here <code>COUNT</code> reports how many materials actually
+            hold a value, so you can see what the average was taken over.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Derived</h3>
+          <p class="card__body">
+            Calculations that build on saved aggregates and on each other by name.
+            Dependencies are tracked: a calculation something else depends on cannot
+            be deleted, and a circular reference is refused when you save it.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOTES ===================== -->
+  <section class="section section--ruled" id="notes">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Notes</p>
+        <h2 class="section-title">Where the reasoning goes</h2>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="card">
+          <h3 class="card__title">My Notes</h3>
+          <p class="card__body">
+            Your own notes, written with headings, bullet lists, bold, italic and
+            underline. File them into collections, give them a category, pin the ones
+            you keep returning to, and reorder them by hand. Notes export as a PDF,
+            individually or in a selection.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">App Notes</h3>
+          <p class="card__body">
+            Everything you have already written into a description — on a material, a
+            formula or either kind of collection — gathered into one readable list.
+            It is a view over those records rather than a second copy, so editing the
+            record is editing the note.
+          </p>
+        </article>
+      </div>
+
+      <p class="callout mt-sm">
+        Notes are yours alone and stay on your device. RUŌOD Lab has no shared
+        documents, no comments and no real-time editing — it is a bench notebook,
+        not a collaboration tool.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== TOOLS & REPORTS ===================== -->
+  <section class="section section--ruled" id="tools">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Tools &amp; reports</p>
+        <h2 class="section-title">Questions about the library, not just one record</h2>
+        <p class="section-lede">
+          Every statistic the application showed before Reports was about a single
+          material or a single formula. The Reports Center answers eight questions
+          about the whole library — computed when you open it, stored nowhere.
+        </p>
+      </div>
+
+      <div class="grid grid--2">
+        <article class="card">
+          <h3 class="card__title">The eight reports</h3>
+          <p class="card__body">
+            Library composition. What is recorded and what is missing. Which materials
+            are most used, and which are orphans. Every IFRA breach across every
+            formula. Stock value and unit costs. Where materials come from. The status
+            and complexity of the formula portfolio. And what the library smells of,
+            by family and pyramid position.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Nothing is recorded as zero</h3>
+          <p class="card__body">
+            A material priced at zero is valued; one with no price recorded is
+            excluded and counted separately. Out of stock and quantity-not-recorded
+            are reported as different rows. A material with no IFRA limit recorded is
+            named as unknown, never counted as compliant. Every figure carries its
+            denominator.
+          </p>
+        </article>
+      </div>
+
+      <div class="grid grid--3 mt-sm">
+        <article class="card">
+          <h3 class="card__title">Suppliers &amp; families</h3>
+          <p class="card__body">
+            Keep your supplier list and your fragrance families in one place, and use
+            them from the material editor, the filters and the reports alike.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">Global search</h3>
+          <p class="card__body">
+            One field searches materials, formulas, both kinds of collection and both
+            kinds of note. What each search reads — names, descriptions, field values,
+            tags — is yours to configure, separately for global and in-list search.
+          </p>
+        </article>
+        <article class="card">
+          <h3 class="card__title">The RUŌOD Library</h3>
+          <p class="card__body">
+            A built-in library of materials, formulas and nineteen primary families
+            you can generate to start from, and clear when you no longer want it. It
+            stays distinguishable from your own records for as long as you keep it.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DATA ===================== -->
+  <section class="section section--ruled" id="data">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Your data</p>
+        <h2 class="section-title">Import it, export it, back it up</h2>
+        <p class="section-lede">
+          A formulation library represents years of work. RUŌOD Lab is built so you
+          can always get it out again.
+        </p>
+      </div>
+
+      <div class="grid grid--3">
+        <article class="card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v3h16v-3"/>
+            </svg>
+          </span>
+          <h3 class="card__title">Export</h3>
+          <p class="card__body">
+            Materials, formulas and collection indexes export as <strong>PDF</strong>,
+            <strong>CSV</strong>, <strong>Excel</strong> or <strong>JSON</strong>.
+            Export one record, the selection you have made, or the whole library — the
+            design of the document does not change with the number of records in it.
+          </p>
+        </article>
+        <article class="card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 21V9m0 0-4 4m4-4 4 4M4 7V4h16v3"/>
+            </svg>
+          </span>
+          <h3 class="card__title">Import</h3>
+          <p class="card__body">
+            Bring an existing library in from <strong>CSV</strong>,
+            <strong>Excel</strong> or <strong>JSON</strong>. If you are moving between
+            devices, a complete backup file is the better route — and the importer
+            says so rather than partly reading one.
+          </p>
+        </article>
+        <article class="card">
+          <span class="icon-badge" aria-hidden="true">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3Z"/>
+              <path d="M4 7v10c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>
+            </svg>
+          </span>
+          <h3 class="card__title">Backup</h3>
+          <p class="card__body">
+            One backup package, two destinations: your device's own storage, or your
+            Google Drive. Both write the same file, and it carries your records whole
+            — including the pictures you took, as bytes rather than as paths that
+            would mean nothing on another install.
+          </p>
+        </article>
+      </div>
+
+      <div class="callout mt-md">
+        <strong>What backup is, and what it is not.</strong> RUŌOD Lab does not
+        synchronise. Your library lives on your device; a backup is a snapshot you
+        choose to write, and Google Drive is one of the two places you can put it.
+        Connecting Drive is optional, the application only ever reaches the files it
+        created there, and restoring replaces your current data rather than merging
+        with it — which is exactly why it asks first, and says what it is about to
+        replace. Details are in the <a href="/lab/privacy">Privacy Policy</a>.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURE INDEX ===================== -->
+  <section class="section section--ruled" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Feature overview</p>
+        <h2 class="section-title">Everything in the application today</h2>
+        <p class="section-lede">
+          This list is what the current build does. Nothing on it is planned,
+          partial or coming later.
+        </p>
+      </div>
+
+      <div class="feature-index">
+        <section class="feature-index__group">
+          <h3>Materials</h3>
+          <ul>
+            <li>Raw-material library with collections</li>
+            <li>Supplier, cost, quantity and IFRA limit</li>
+            <li>Primary and secondary fragrance family</li>
+            <li>Fragrance pyramid position</li>
+            <li>Material pictures</li>
+            <li>Per-material dilutions and a solvent flag</li>
+            <li>Configurable sections and fields</li>
+            <li>Custom fields, per library or per material</li>
+            <li>Filter by pyramid or family; sort four ways</li>
+            <li>Used-in-formulas, derived live</li>
+          </ul>
+        </section>
+
+        <section class="feature-index__group">
+          <h3>Formulas</h3>
+          <ul>
+            <li>Formula editor with live composition</li>
+            <li>Formula collections, status, tags and favourites</li>
+            <li>Locking, versions and duplicate tracking</li>
+            <li>A configurable status bar, from eleven measures</li>
+            <li>Dilution switching, three methods</li>
+            <li>IFRA checking against relative percentage</li>
+            <li>Scaling by weight, factor, material or concentration</li>
+            <li>Production targets with the alcohol split</li>
+            <li>Manual reordering of entries</li>
+          </ul>
+        </section>
+
+        <section class="feature-index__group">
+          <h3>Across the app</h3>
+          <ul>
+            <li>Formula Hub: material, aggregate and derived calculations</li>
+            <li>Rich-text My Notes, and App Notes</li>
+            <li>Eight library reports</li>
+            <li>Global search and per-list search</li>
+            <li>App-wide undo and redo</li>
+            <li>Export to PDF, CSV, Excel and JSON</li>
+            <li>Import from CSV, Excel and JSON</li>
+            <li>Local and Google Drive backup</li>
+            <li>Light and dark themes, full-screen mode</li>
+            <li>Phone and tablet layouts</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AUDIENCE ===================== -->
+  <section class="section section--ruled" id="who">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Who it is for</p>
+        <h2 class="section-title">Built for the bench</h2>
+      </div>
+
+      <div class="audience">
+        <article class="audience__item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M9 3v6L4 19a2 2 0 0 0 1.8 3h12.4A2 2 0 0 0 20 19l-5-10V3"/><path d="M8 3h8"/>
+          </svg>
+          <div>
+            <h3>Independent perfumers</h3>
+            <p>Running a library and a formula archive without a laboratory information system behind you.</p>
+          </div>
+        </article>
+        <article class="audience__item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M12 2v5M8.5 4.2 12 7l3.5-2.8"/><circle cx="12" cy="14" r="7"/>
+          </svg>
+          <div>
+            <h3>Fragrance creators and students</h3>
+            <p>Learning where dilution, concentration and olfactory contribution actually diverge.</p>
+          </div>
+        </article>
+        <article class="audience__item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/>
+          </svg>
+          <div>
+            <h3>Small fragrance labs</h3>
+            <p>Keeping materials, costs and IFRA positions in one place, with reports over the whole library.</p>
+          </div>
+        </article>
+        <article class="audience__item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M15 3v5h5"/>
+          </svg>
+          <div>
+            <h3>Anyone with a growing archive</h3>
+            <p>Hundreds of materials and years of trials that have outgrown a spreadsheet.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="section section--ruled" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2 class="section-title">Frequently asked</h2>
+      </div>
+
+      <div class="faq">
+          <details class="faq__item">
+            <summary>What is RUŌOD Lab?</summary>
+            <div class="faq__answer">
+              <p>A perfume formulation and laboratory-management application for Android.
+              It holds your raw-material library, your formulas and your notes on the
+              device, and calculates dilution, composition, scaling and production
+              targets from one engine.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Does RUŌOD Lab work offline?</summary>
+            <div class="faq__answer">
+              <p>Yes — it is offline-first. Your materials, formulas, notes and settings
+              are stored on your own device, and every screen works with no connection.
+              A connection is only needed if you choose to back up to Google Drive.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Do I need an account?</summary>
+            <div class="faq__answer">
+              <p>No. There is no RUŌOD account and no sign-up. The only sign-in anywhere
+              in the application is Google's own, and only if you decide to connect
+              Google Drive for backup.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>How does dilution work?</summary>
+            <div class="faq__answer">
+              <p>Each row carries a raw weight and a dilution percentage. From those the
+              engine derives the pure active weight and the internal solvent the row
+              brought with it, and totals both across the formula. Changing a row's
+              dilution is done through one of three methods, which differ in what they
+              hold constant — the row's weight, the row's pure active, or both the
+              pure active and the formula total.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Can I scale a formula for production?</summary>
+            <div class="faq__answer">
+              <p>Yes. Scale to a target total weight, by a factor, from a single
+              material's weight or percentage, or to a target absolute percentage. For
+              a finished batch, give the amount and the concentration and the engine
+              returns the concentrate needed, the alcohol to make it up with, and the
+              scaling factor from the formula as it stands.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Does it check IFRA limits?</summary>
+            <div class="faq__answer">
+              <p>Where you have recorded a limit for a material, the engine compares it
+              against that entry's relative percentage and flags the row, and one of
+              the eight reports gathers every breach across every formula. It checks
+              what you have recorded — RUŌOD Lab does not ship IFRA standards and is
+              not a substitute for the current published standards or for your own
+              regulatory assessment.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Where is my data stored, and can I back it up?</summary>
+            <div class="faq__answer">
+              <p>On your device. Settings has one Backup section with two destinations —
+              your device's own storage and your Google Drive — and both write the
+              same complete package. Google Drive backup is optional and starts only
+              once you connect an account. You can also export your library as PDF,
+              CSV, Excel or JSON at any time. The
+              <a href="/lab/privacy">Privacy Policy</a> sets out exactly what is
+              stored where.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Is RUŌOD Lab free?</summary>
+            <div class="faq__answer">
+              <p>The application includes a subscription, RUŌOD Lab Premium, sold
+              through Google Play Billing. <strong>No feature is currently behind
+              it</strong> — every screen behaves the same whether or not you
+              subscribe. Google Play is the authority on price in your country.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Is there an iPhone or desktop version?</summary>
+            <div class="faq__answer">
+              <p>Not at present. RUŌOD Lab is an Android application, and this website
+              is its product site rather than a version of the app you can use in a
+              browser.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Can I work on a formula with someone else?</summary>
+            <div class="faq__answer">
+              <p>No. RUŌOD Lab is a single-user application with no shared workspace,
+              no comments and no real-time editing. Sharing is done by exporting a
+              PDF or a spreadsheet.</p>
+            </div>
+          </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="cta">
+        <h2>RUŌOD Lab</h2>
+        <p>
+          A formulation bench that keeps the numbers straight, on a device you
+          already carry into the lab.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="/lab/contact">Contact RUŌOD</a>
+          <a class="btn btn--ghost" href="/lab/about">About RUŌOD Lab</a>
+        </div>
+        <p class="cta__small">
+          Not yet published on Google Play. Write to
+          <a href="mailto:info@ruood.com">info@ruood.com</a> to be told when it is.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="site-footer__grid">
+      <div class="site-footer__about">
+        <a class="brand" href="/lab">
+          <img class="brand__mark" src="/lab/assets/images/ruood-lab-mark-96.png" width="34" height="34" alt="" loading="lazy" decoding="async">
+          <span class="brand__name">RU<em>Ō</em>OD Lab</span>
+        </a>
+        <p>
+          A perfume formulation and laboratory-management application: a raw-material
+          library, a formula editor with a dilution and scaling calculation engine,
+          reports, and backup you control. RUŌOD Lab is part of RUŌOD.
+        </p>
+      </div>
+
+      <nav aria-labelledby="footer-nav-site">
+        <h2 id="footer-nav-site">RUŌOD Lab</h2>
+        <ul>
+          <li><a href="/lab">Home</a></li>
+          <li><a href="/lab#features">Features</a></li>
+          <li><a href="/lab#calculations">Calculations</a></li>
+          <li><a href="/lab/about">About</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-nav-more">
+        <h2 id="footer-nav-more">More</h2>
+        <ul>
+          <li><a href="/lab/privacy">Privacy Policy</a></li>
+          <li><a href="/lab/contact">Contact</a></li>
+          <li><a href="mailto:info@ruood.com">info@ruood.com</a></li>
+          <li><a href="mailto:developers@ruood.com">developers@ruood.com</a></li>
+          <li><a href="https://ruood.com">RUŌOD</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="site-footer__base">
+      <p>© 2026 RUŌOD. All rights reserved.</p>
+      <p>RUŌOD Lab is an Android application. Google Play and Google Drive are trademarks of Google LLC.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/lab/js/main.js" defer></script>
+</body>
+</html>

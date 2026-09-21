@@ -1,0 +1,67 @@
+# Netlify configuration for the RUŌOD Lab website.
+#
+# `npm run build` stages the site into dist/lab/, because every path in the
+# HTML is root-relative and carries the /lab prefix. The publish directory is
+# therefore dist, not the project root — publishing the root would serve the
+# site at / and break every link.
+#
+# This file assumes THIS deployment serves ruood.com. If the main RUŌOD site
+# owns the domain and only proxies /lab through to here, see README.md —
+# the rewrite belongs in the MAIN site's configuration, not this one.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# A bare /lab with no trailing slash is served by dist/lab/index.html
+# automatically; this only normalises the trailing-slash form.
+[[redirects]]
+  from = "/lab/"
+  to = "/lab"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lab/*"
+  to = "/lab/404.html"
+  status = 404
+
+# Fingerprint-free filenames, so the HTML must revalidate while the immutable
+# assets may be held. The images and the stylesheet change only on a deploy,
+# so a day is a reasonable compromise without content hashing in the names.
+[[headers]]
+  for = "/lab/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/lab/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/lab/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/lab/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# The site loads nothing from a third party, so the policy can say exactly
+# that. If an external resource is ever added, this must be updated with it —
+# and so must the Privacy Policy, which states the same fact in words.
+#
+# The script-src hash covers the ONE inline script every page carries:
+#   document.documentElement.classList.remove('no-js');
+# It is hashed rather than allowed with 'unsafe-inline' so that no other
+# inline script can run. Change that line and the hash must be regenerated:
+#   node -e "const c=require('crypto');console.log('sha256-'+c.createHash('sha256').update(\"<the script>\",'utf8').digest('base64'))"
+[[headers]]
+  for = "/lab/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-tuKyZn/3ycw/MNMDii/kvSPrelo6SCsJSecqb1n2neg='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"

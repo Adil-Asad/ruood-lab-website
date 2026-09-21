@@ -1,0 +1,16 @@
+{
+  "name": "ruood-lab-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official product website for RUOOD Lab, served at https://ruood.com/lab",
+  "type": "module",
+  "scripts": {
+    "preview": "node tools/preview.mjs 8080",
+    "build": "node tools/build.mjs",
+    "verify": "node tools/verify.mjs 8099",
+    "measure": "node tools/measure.mjs 8099",
+    "shots": "node tools/shots.mjs ./.shots 8099",
+    "check": "node tools/preview.mjs 8099 & node tools/verify.mjs 8099 && node tools/measure.mjs 8099"
+  },
+  "engines": { "node": ">=18" }
+}
