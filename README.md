@@ -147,44 +147,86 @@ excluded.
 ```
 dist/
 ├── lab/          ← the site
-└── robots.txt    ← see below
+└── robots.txt    ← the ORIGIN's; disallows all. See below.
 ```
 
 **Publish directory: `dist`.** Publishing the project root instead would serve
 the site at `/` and break every link.
 
-### Which hosting situation applies
+### The architecture
 
-**A — this deployment serves `ruood.com`.** Use `netlify.toml` as it stands:
-publish `dist`, and `dist/robots.txt` becomes the apex `robots.txt`. The main
-RUŌOD site's own pages would need to be part of the same deployment.
+Two Netlify sites. This repository is only one of them, and it is **not** the
+one that owns the domain.
 
-**B — the main RUŌOD site owns the domain and only `/lab` comes from here.**
-This is the likelier case.
+```
+ruood.com/            the main RUŌOD perfume site — a separate project
+ruood.com/lab    →    proxied (200) to  ruoo.netlify.app/lab  — this repo
+```
 
-- Delete `dist/robots.txt`; it would be ignored anyway.
+`ruoo.netlify.app` is a hosting address, not the public site. The public URL is
+`https://ruood.com/lab`, which is what every canonical, `og:url`, sitemap entry
+and JSON-LD `@id` in the HTML points at.
+
+**This Netlify site must not take `ruood.com` as its primary domain.** It has
+no custom domain at all; the apex belongs to the main site, which reaches this
+one over the public netlify.app address.
+
+#### On this site (the Lab)
+
+- **Publish directory: `dist`** — not `dist/lab`, and not the project root.
+  Publishing the root would serve the site at `/` and break every link.
+- Each page is served by a **forced `200` rewrite** to its `index.html`, so the
+  requested URL is the URL that stays in the address bar and there is no
+  redirect for the proxy to pass through.
+- **Never add a redirect whose `to` differs from its `from` only by a trailing
+  slash.** Netlify ignores trailing slashes when matching `from`, so such a
+  rule matches its own target and loops — `/lab/` → `/lab` (301, force) is what
+  once made `/lab` answer `ERR_TOO_MANY_REDIRECTS`.
+- `dist/robots.txt` disallows everything. That file is the *origin's*
+  robots.txt, served only at `ruoo.netlify.app/robots.txt`; its job is to keep
+  the implementation host out of search results. It is deliberately a file and
+  not an `X-Robots-Tag` header, because headers *are* passed through the proxy
+  and a noindex header would deindex the real pages at `ruood.com/lab`.
+
+#### On the main site
+
+- The rewrite belongs in the **main site's** `netlify.toml`:
+
+  ```toml
+  [[redirects]]
+    from = "/lab"
+    to = "https://ruoo.netlify.app/lab"
+    status = 200
+    force = true
+
+  [[redirects]]
+    from = "/lab/*"
+    to = "https://ruoo.netlify.app/lab/:splat"
+    status = 200
+    force = true
+  ```
+
+  The `200` matters: it is a rewrite, so the browser stays on `ruood.com/lab`.
+  A `301` would move visitors onto the netlify.app host and split the SEO value
+  away from the canonical URLs. `force = true` keeps a future `/lab` page on
+  the main site from shadowing the proxy.
+
 - **`robots.txt` is only read at the apex.** A crawler fetches
   `https://ruood.com/robots.txt` and never `https://ruood.com/lab/robots.txt`,
-  so the file in this repo is a **source to merge**. Add this line to the main
-  site's `robots.txt`:
+  so this project's `robots.txt` is a **source to merge**. Add to the main
+  site's:
 
   ```
   Sitemap: https://ruood.com/lab/sitemap.xml
   ```
 
   and make sure nothing there disallows `/lab`.
-- The rewrite belongs in the **main site's** configuration, not this one. On
-  Netlify, in the main site's `netlify.toml`:
 
-  ```toml
-  [[redirects]]
-    from = "/lab/*"
-    to = "https://<this-site>.netlify.app/lab/:splat"
-    status = 200   # 200 = proxy, so the URL stays ruood.com/lab
-  ```
+#### DNS (Namecheap BasicDNS)
 
-  The `200` matters: a `301` would move visitors off `ruood.com` and split the
-  SEO value away from the canonical URLs.
+DNS stays where it is — BasicDNS carries the email forwarding, and none of this
+needs Netlify's nameservers. The apex records point at the **main** site.
+Nothing in DNS points at the Lab: it is reached only through the proxy.
 
 ### After any deploy
 

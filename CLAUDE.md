@@ -49,6 +49,69 @@ deployed URL and it is the constraint most easily broken.
   canonical pointing at the apex.
 - `build.mjs` stages into `dist/lab/` for the same reason.
 
+## Deployment architecture
+
+Two Netlify sites, and this repo is only one of them.
+
+```
+ruood.com/            main RUŌOD perfume site  — a different project
+ruood.com/lab   →     proxied (200) to  ruoo.netlify.app/lab   — THIS repo
+```
+
+- **This site is a hosting origin, not a public site.** `ruoo.netlify.app` is
+  an implementation address. The public URL is `https://ruood.com/lab`, and
+  every canonical, `og:url`, sitemap entry and JSON-LD `@id` says so. Never put
+  a `netlify.app` URL in the content.
+- **This Netlify site must not have `ruood.com` as its primary domain**, and
+  must not claim the apex. It had both once; that is what the current config
+  undoes.
+- **The proxy rule lives in the MAIN site's `netlify.toml`, not here:**
+
+  ```toml
+  [[redirects]]
+    from = "/lab"
+    to = "https://ruoo.netlify.app/lab"
+    status = 200
+    force = true
+
+  [[redirects]]
+    from = "/lab/*"
+    to = "https://ruoo.netlify.app/lab/:splat"
+    status = 200
+    force = true
+  ```
+
+  `200` is a rewrite, so the address bar stays on `ruood.com/lab`. A `301`
+  would push visitors onto the netlify.app host and split the SEO value off
+  the canonical URLs.
+- DNS stays at Namecheap BasicDNS (it carries the email forwarding). Only the
+  apex records matter, and they point at the **main** site. Nothing in DNS
+  points at this one.
+
+### Routing rules that must not come back
+
+`publish = "dist"` — not `dist/lab`, not the repo root. `build.mjs` stages into
+`dist/lab/` because the paths carry the prefix.
+
+**Netlify ignores a trailing slash when matching a redirect's `from`.** A rule
+whose `to` differs from its `from` only by a slash therefore matches its own
+target and loops. `from = "/lab/"` → `to = "/lab"` (301, force) is exactly that
+rule, and it is why `/lab` once answered `ERR_TOO_MANY_REDIRECTS`. Do not
+reintroduce any redirect of that shape.
+
+Each page is served by a **forced 200 rewrite** to its `index.html` instead:
+the URL stays exactly as typed, there is no hop for the proxy to pass through,
+and it cannot loop. Adding a page adds a rule here too. `/` 302s to `/lab` as a
+courtesy for anyone opening the netlify.app address directly — it is never
+reached through the proxy.
+
+`dist/robots.txt` is **not** the site's robots.txt. It disallows everything, to
+keep the netlify.app origin out of search results; crawlers read
+`ruood.com/robots.txt`, which the main site owns and into which this project's
+own `robots.txt` is merged by hand. It has to be a file rather than an
+`X-Robots-Tag` header, because response headers *are* passed through the proxy
+and a noindex header would deindex the real pages.
+
 ## Rules that are not preferences
 
 ### No third-party resources, ever

@@ -1,34 +1,94 @@
 # Netlify configuration for the RUŌOD Lab website.
 #
+# ── Deployment architecture (do not change without reading README.md) ──────
+#
+# This Netlify site is the HOSTING ORIGIN for the Lab only. Its own address,
+# https://ruoo.netlify.app, is an implementation detail; the public URL is
+# https://ruood.com/lab, which the SEPARATE main RUŌOD site serves by
+# proxying /lab/* through to this origin with status = 200.
+#
+# So: this site must NOT claim ruood.com as its primary domain, and nothing
+# here may redirect a visitor to the netlify.app host. The apex, ruood.com/,
+# is reserved for the main RUŌOD perfume site.
+#
 # `npm run build` stages the site into dist/lab/, because every path in the
 # HTML is root-relative and carries the /lab prefix. The publish directory is
-# therefore dist, not the project root — publishing the root would serve the
-# site at / and break every link.
-#
-# This file assumes THIS deployment serves ruood.com. If the main RUŌOD site
-# owns the domain and only proxies /lab through to here, see README.md —
-# the rewrite belongs in the MAIN site's configuration, not this one.
+# therefore dist, not dist/lab and not the project root — publishing either of
+# those would serve the site at / and break every link.
 
 [build]
   command = "npm run build"
   publish = "dist"
 
-# A bare /lab with no trailing slash is served by dist/lab/index.html
-# automatically; this only normalises the trailing-slash form.
+# ── Routing ───────────────────────────────────────────────────────────────
+#
+# Netlify ignores trailing slashes when matching `from`, so a rule whose `to`
+# differs from its `from` only by a slash matches its own target and loops.
+# The rule that used to live here, /lab/ → /lab (301, force), was exactly that
+# shape, and it is why /lab answered ERR_TOO_MANY_REDIRECTS. Never reintroduce
+# a redirect whose target normalises back to its own source.
+#
+# Each page is served by a FORCED 200 rewrite instead. 200 is a rewrite, not a
+# redirect: the URL stays exactly as the visitor typed it, which is what keeps
+# the address bar on ruood.com/lab when the main site proxies to here, and it
+# cannot loop. `force = true` answers the path before Netlify's own directory
+# -index handling can normalise it into a 301, so both /lab and /lab/ resolve
+# to the same page with no hop for the proxy to pass through.
+#
+# Adding a page means adding it here, alongside sitemap.xml, the nav and
+# footer in all five pages, and PAGES in verify.mjs and measure.mjs.
+
 [[redirects]]
-  from = "/lab/"
-  to = "/lab"
-  status = 301
+  from = "/lab"
+  to = "/lab/index.html"
+  status = 200
   force = true
 
 [[redirects]]
+  from = "/lab/about"
+  to = "/lab/about/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/lab/privacy"
+  to = "/lab/privacy/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/lab/contact"
+  to = "/lab/contact/index.html"
+  status = 200
+  force = true
+
+# This origin serves nothing but the Lab, so its own root is a courtesy for
+# anyone who opens the netlify.app address directly. It is never reached
+# through the ruood.com/lab proxy, and it does not make this site the owner of
+# any apex. tools/preview.mjs does the same thing locally.
+[[redirects]]
+  from = "/"
+  to = "/lab"
+  status = 302
+
+# Unmatched paths. Both are unforced, so a real file always wins.
+[[redirects]]
   from = "/lab/*"
+  to = "/lab/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*"
   to = "/lab/404.html"
   status = 404
 
 # Fingerprint-free filenames, so the HTML must revalidate while the immutable
 # assets may be held. The images and the stylesheet change only on a deploy,
 # so a day is a reasonable compromise without content hashing in the names.
+#
+# The page URLs themselves (/lab, /lab/about, …) end in no extension and so
+# match none of these rules; they take Netlify's own default for HTML, which
+# is already `public, max-age=0, must-revalidate`.
 [[headers]]
   for = "/lab/*.html"
   [headers.values]
@@ -58,8 +118,15 @@
 # It is hashed rather than allowed with 'unsafe-inline' so that no other
 # inline script can run. Change that line and the hash must be regenerated:
 #   node -e "const c=require('crypto');console.log('sha256-'+c.createHash('sha256').update(\"<the script>\",'utf8').digest('base64'))"
+#
+# `/*`, not `/lab/*`: the home page is requested as the bare path /lab, which
+# a /lab/* pattern is not guaranteed to match, and shipping the one page most
+# people see without the policy would quietly undo it. Nothing else is hosted
+# on this origin, so the wider pattern costs nothing. These headers are passed
+# through the ruood.com/lab proxy, which is the point — 'self' is evaluated
+# against ruood.com there, and every path the pages reference is same-origin.
 [[headers]]
-  for = "/lab/*"
+  for = "/*"
   [headers.values]
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-tuKyZn/3ycw/MNMDii/kvSPrelo6SCsJSecqb1n2neg='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'"
     X-Content-Type-Options = "nosniff"
