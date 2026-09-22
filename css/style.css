@@ -307,8 +307,11 @@ code, kbd { font-family: var(--font-mono); font-size: 0.88em; }
 }
 .site-nav a:hover { color: var(--text); background: var(--surface-2); }
 .site-nav a[aria-current="page"] { color: var(--gold); }
-.site-nav .btn { margin-left: 10px; padding: 10px 18px; min-height: 42px; font-size: 14.5px; }
-.site-nav .btn:hover { color: #1A1407; }
+/* `.site-nav a` outranks `.btn--primary`, so the button's ink is restated here:
+   #1A1407 on the gold is >=8:1. On hover `.site-nav a:hover` puts the pill on
+   --surface-2, where the gold-bright text is 11:1. */
+.site-nav .btn { margin-left: 10px; padding: 10px 18px; min-height: 42px; font-size: 14.5px; color: #1A1407; }
+.site-nav .btn:hover { color: var(--gold-bright); }
 
 /* Mobile navigation. Collapsed by default; the script flips aria-expanded.
    The links stay in the document either way, so they are crawlable, and the
